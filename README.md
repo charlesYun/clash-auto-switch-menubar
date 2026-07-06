@@ -1,65 +1,65 @@
-[中文](README_ZH.md) | **English**
+**中文** | [English](README_EN.md)
 
 # Clash Auto Switch Menubar
 
-A macOS menu bar app that speed-tests the selector groups in your current Clash Verge Rev / Mihomo chain and switches them to the lowest-latency available node.
+macOS 菜单栏工具，用来对 Clash Verge Rev / Mihomo 当前链路里的 selector 组测速，并一键切换到延迟最低的可用节点。
 
-This repository focuses on the macOS menu bar wrapper, build scripts, and downloadable app packaging. The underlying auto-test and auto-switch script is based on [tankeito/clash-verge-auto-switch](https://github.com/tankeito/clash-verge-auto-switch).
+本仓库主要提供 macOS 菜单栏封装、构建脚本和下载包发布。底层自动测速与切换脚本基于 [tankeito/clash-verge-auto-switch](https://github.com/tankeito/clash-verge-auto-switch)。
 
-## Download
+## 下载
 
-Download the current build directly:
+直接下载当前版本：
 
-[Download Clash Verge Auto Switch.app](https://github.com/charlesYun/clash-auto-switch-menubar/raw/main/downloads/Clash-Verge-Auto-Switch-macOS-arm64.zip)
+[下载 Clash Verge Auto Switch.app](https://github.com/charlesYun/clash-auto-switch-menubar/raw/main/downloads/Clash-Verge-Auto-Switch-macOS-arm64.zip)
 
-After downloading, unzip `Clash-Verge-Auto-Switch-macOS-arm64.zip` and move `Clash Verge Auto Switch.app` to `Applications`, or run it directly.
+下载后解压 `Clash-Verge-Auto-Switch-macOS-arm64.zip`，把 `Clash Verge Auto Switch.app` 拖到 `Applications` 或直接双击运行。
 
-> The current build is not signed or notarized with an Apple Developer ID. If macOS says the developer cannot be verified, right-click the app in Finder and choose Open.
+> 当前下载包未做 Apple Developer ID 签名和公证。如果 macOS 提示无法验证开发者，请在 Finder 中右键点击 App，选择“打开”。
 
-## Requirements
+## 系统要求
 
-- macOS 13 or later
-- Apple Silicon Mac: M1 / M2 / M3 / M4
-- Clash Verge Rev or another Mihomo-compatible client installed and running
-- Reachable Clash external controller
-- `/usr/bin/python3` and `curl` available on the system
+- macOS 13 或更高版本
+- Apple Silicon Mac，包含 M1 / M2 / M3 / M4
+- 已安装并运行 Clash Verge Rev 或兼容 Mihomo 控制器的客户端
+- Clash 外部控制器可访问
+- 系统可用 `/usr/bin/python3` 和 `curl`
 
-## Clash Configuration
+## Clash 配置要求
 
-The app discovers the controller from common Clash config files:
+工具会自动读取常见 Clash 配置里的控制器地址：
 
 ```yaml
 external-controller: 127.0.0.1:9097
 secret: ""
 ```
 
-Unix socket controllers are also supported:
+也支持 Unix socket：
 
 ```yaml
 external-controller-unix: /path/to/socket
 ```
 
-Default lookup paths:
+默认检查路径：
 
 ```text
 ~/Library/Application Support/io.github.clash-verge-rev.clash-verge-rev/config.yaml
 ~/.config/clash/config.yaml
 ```
 
-If Clash Verge is not running, the menu bar app tries to launch Clash Verge Rev and reconnect to the controller.
+如果 Clash Verge 没有运行，菜单栏 App 会尝试自动打开 Clash Verge Rev，然后重试连接控制器。
 
-## Usage
+## 使用方式
 
-After launch, the app appears in the macOS menu bar and does not show a Dock icon.
+打开 App 后，它会出现在 macOS 顶部菜单栏，不显示 Dock 图标。
 
-- Test: measure candidate node latency without switching.
-- Switch Now: test and switch current selector groups to the fastest available node.
-- Auto Switch: run switching repeatedly at the selected minute interval.
-- Logs: show latency, timeout, and selected winner details.
+- “测速”：只测试当前链路 selector 组的候选节点，不切换。
+- “立即切换”：测试后把当前链路 selector 组切换到最快可用节点。
+- “自动切换最快节点”：按设置的间隔分钟自动执行切换。
+- 日志区域会显示每个候选节点的延迟、超时和最终选择结果。
 
-Run Test first, then use Switch Now after confirming that the controller and proxy list are detected correctly.
+建议首次使用先点“测速”，确认控制器和节点列表正常后，再点“立即切换”。
 
-## Build From Source
+## 从源码构建
 
 ```bash
 git clone https://github.com/charlesYun/clash-auto-switch-menubar.git
@@ -67,62 +67,62 @@ cd clash-auto-switch-menubar/macos-menu-bar
 ./scripts/build_app.sh
 ```
 
-Build output:
+构建结果：
 
 ```text
 macos-menu-bar/build/Clash Verge Auto Switch.app
 ```
 
-Create a Release zip:
+打包 Release zip：
 
 ```bash
 ./scripts/package_release.sh
 ```
 
-Package output:
+打包结果：
 
 ```text
 macos-menu-bar/build/release/Clash-Verge-Auto-Switch-macOS-arm64.zip
 ```
 
-## Command Line Script
+## 命令行脚本
 
-You can also run the underlying script directly:
+如果不想使用菜单栏 App，也可以直接运行底层脚本：
 
 ```bash
 /usr/bin/python3 scripts/switch_fastest.py --group-scope current --launch-if-needed
 ```
 
-Dry run:
+只测速不切换：
 
 ```bash
 /usr/bin/python3 scripts/switch_fastest.py --group-scope current --launch-if-needed --dry-run
 ```
 
-List discovered groups:
+列出自动发现的组：
 
 ```bash
 /usr/bin/python3 scripts/switch_fastest.py --list-groups
 ```
 
-## launchd Scheduling
+## 定时任务脚本
 
-The repository still includes a launchd installer for background scheduling without the menu bar app:
+项目仍保留 launchd 安装脚本，适合不打开菜单栏 App 时做后台定时切换：
 
 ```bash
 scripts/install_launch_agent.sh --interval-minutes 30 --group-scope current --launch-if-needed
 ```
 
-Uninstall:
+卸载：
 
 ```bash
 scripts/uninstall_launch_agent.sh
 ```
 
-The menu bar app auto-switcher runs only while the app is open. The launchd job runs independently.
+菜单栏 App 自带的自动切换只在 App 运行时生效；launchd 任务则不依赖菜单栏 App。
 
-## Credits and License
+## 来源和许可
 
-- Underlying script based on [tankeito/clash-verge-auto-switch](https://github.com/tankeito/clash-verge-auto-switch)
-- This repository adds the macOS SwiftUI menu bar app, icon, build scripts, and distribution notes
+- 底层脚本基于 [tankeito/clash-verge-auto-switch](https://github.com/tankeito/clash-verge-auto-switch)
+- 本仓库增加 macOS SwiftUI 菜单栏 App、图标、构建和分发说明
 - License: MIT
