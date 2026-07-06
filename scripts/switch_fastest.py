@@ -27,7 +27,7 @@ def timestamp() -> str:
 
 
 def log(message: str) -> None:
-    print(f"[{timestamp()}] {message}")
+    print(f"[{timestamp()}] {message}", flush=True)
 
 
 def read_simple_yaml_value(paths: list[Path], key: str) -> Optional[str]:
@@ -462,6 +462,7 @@ def main() -> int:
             log(f"Skipping {group_name}: no leaf proxies found.")
             continue
 
+        log(f"{group_name}: testing {len(candidates)} candidate(s)...")
         results: list[tuple[int, str]] = []
         for candidate in candidates:
             try:
@@ -469,7 +470,10 @@ def main() -> int:
             except RuntimeError:
                 delay = None
             if delay is not None:
+                log(f"{group_name}: {candidate} -> {delay} ms")
                 results.append((delay, candidate))
+            else:
+                log(f"{group_name}: {candidate} -> timeout")
 
         if not results:
             log(f"{group_name}: no healthy proxies responded within {args.timeout_ms} ms.")
@@ -478,11 +482,12 @@ def main() -> int:
         results.sort(key=lambda item: item[0])
         winner_delay, winner_name = results[0]
         current_name = str((group_entry or {}).get("now") or "")
+        log(f"{group_name}: best candidate is {winner_name} ({winner_delay} ms).")
 
         if args.dry_run:
             log(
-                f"{group_name}: best candidate is {winner_name} ({winner_delay} ms); "
-                f"current selection is {current_name or 'unknown'}."
+                f"{group_name}: dry-run only; current selection is "
+                f"{current_name or 'unknown'}."
             )
             overall_success = True
             continue
