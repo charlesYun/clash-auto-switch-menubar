@@ -8,9 +8,9 @@ macOS 菜单栏工具，用来对 Clash Verge Rev / Mihomo 当前链路里的 se
 
 ## 下载
 
-从 GitHub Release 下载最新版：
+直接下载当前版本：
 
-[下载 Clash Verge Auto Switch.app](https://github.com/charlesYun/clash-auto-switch-menubar/releases/latest)
+[下载 Clash Verge Auto Switch.app](https://github.com/charlesYun/clash-auto-switch-menubar/raw/main/downloads/Clash-Verge-Auto-Switch-macOS-arm64.zip)
 
 下载后解压 `Clash-Verge-Auto-Switch-macOS-arm64.zip`，把 `Clash Verge Auto Switch.app` 拖到 `Applications` 或直接双击运行。
 

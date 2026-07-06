@@ -8,9 +8,9 @@ This repository focuses on the macOS menu bar wrapper, build scripts, and downlo
 
 ## Download
 
-Download the latest build from GitHub Releases:
+Download the current build directly:
 
-[Download Clash Verge Auto Switch.app](https://github.com/charlesYun/clash-auto-switch-menubar/releases/latest)
+[Download Clash Verge Auto Switch.app](https://github.com/charlesYun/clash-auto-switch-menubar/raw/main/downloads/Clash-Verge-Auto-Switch-macOS-arm64.zip)
 
 After downloading, unzip `Clash-Verge-Auto-Switch-macOS-arm64.zip` and move `Clash Verge Auto Switch.app` to `Applications`, or run it directly.
 

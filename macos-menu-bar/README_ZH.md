@@ -14,10 +14,10 @@
 
 ## 安装下载版
 
-从 GitHub Release 下载 zip：
+直接下载当前 zip：
 
 ```text
-https://github.com/charlesYun/clash-auto-switch-menubar/releases/latest
+https://github.com/charlesYun/clash-auto-switch-menubar/raw/main/downloads/Clash-Verge-Auto-Switch-macOS-arm64.zip
 ```
 
 解压后得到：
@@ -57,7 +57,7 @@ build/Clash Verge Auto Switch.app
 build/release/Clash-Verge-Auto-Switch-macOS-arm64.zip
 ```
 
-该 zip 可上传到 GitHub Release，作为用户下载入口。
+该 zip 也会同步到仓库 `downloads/` 目录，作为当前版本的直接下载入口。
 
 ## 使用
 
